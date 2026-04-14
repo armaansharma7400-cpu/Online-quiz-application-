@@ -1,0 +1,799 @@
+<html>
+        <head><title>Downloaded HTML</title></head>
+        <body>
+            <pre style="white-space: pre-wrap; word-wrap: break-word;"><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AlgoQuiz — Algorithm Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ─── Reset & Base ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0f13;
+    --card: #18181f;
+    --card2: #1e1e2a;
+    --border: #2a2a35;
+    --accent: #c8f135;
+    --accent2: #7c6af7;
+    --text: #f0f0f8;
+    --muted: #888898;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 1.25rem 4rem;
+  }
+
+  /* ─── Decorative background dots ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, #2a2a35 1px, transparent 1px);
+    background-size: 32px 32px;
+    opacity: .35;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .shell {
+    width: 100%;
+    max-width: 700px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── Header ─── */
+  .hdr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -.03em;
+  }
+  .logo span { color: var(--accent); }
+
+  .hdr-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-size: .72rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    transition: color .3s;
+  }
+
+  /* ─── Progress ─── */
+  .prog-wrap { margin-bottom: 2rem; }
+
+  .prog-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: .72rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    margin-bottom: .5rem;
+  }
+
+  .prog-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .prog-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 4px;
+    transition: width .55s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ─── Category badge ─── */
+  .cat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(124,106,247,.1);
+    border: 1px solid rgba(124,106,247,.28);
+    color: #a99ff8;
+    border-radius: 999px;
+    font-size: .68rem;
+    font-family: 'DM Mono', monospace;
+    padding: 5px 14px;
+    margin-bottom: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+
+  .cat-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: .4; }
+  }
+
+  /* ─── Question Card ─── */
+  .qcard {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-bottom: 1.1rem;
+    position: relative;
+    overflow: hidden;
+    animation: slideUp .35s ease;
+  }
+
+  .qcard::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+  }
+
+  .q-num {
+    font-size: .68rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    margin-bottom: .75rem;
+    letter-spacing: .05em;
+  }
+
+  .q-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.55;
+    color: var(--text);
+  }
+
+  .code-block {
+    background: #0d0d11;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1.1rem 1.25rem;
+    margin-top: 1.1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: .8rem;
+    color: var(--accent);
+    line-height: 1.75;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* ─── Options ─── */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .opt {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: border-color .15s, background .15s, transform .1s;
+    user-select: none;
+    animation: slideUp .35s ease both;
+  }
+
+  .opt:nth-child(1) { animation-delay: .04s; }
+  .opt:nth-child(2) { animation-delay: .08s; }
+  .opt:nth-child(3) { animation-delay: .12s; }
+  .opt:nth-child(4) { animation-delay: .16s; }
+
+  .opt:hover:not(.locked) {
+    border-color: var(--accent2);
+    background: var(--card2);
+    transform: translateX(5px);
+  }
+
+  .opt-key {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: background .2s, color .2s, border-color .2s;
+  }
+
+  .opt-text {
+    font-size: .88rem;
+    font-weight: 400;
+    line-height: 1.45;
+    flex: 1;
+  }
+
+  /* Result states */
+  .opt.correct { border-color: var(--success); background: rgba(34,197,94,.08); }
+  .opt.correct .opt-key { background: var(--success); color: #000; border-color: var(--success); }
+
+  .opt.wrong { border-color: var(--danger); background: rgba(239,68,68,.07); }
+  .opt.wrong .opt-key { background: var(--danger); color: #fff; border-color: var(--danger); }
+
+  .opt.locked { cursor: default; }
+  .opt.faded { opacity: .35; }
+
+  /* ─── Explanation ─── */
+  .explain {
+    background: #0d0d11;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    font-size: .84rem;
+    color: #b8b8c8;
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+    animation: fadeIn .3s ease;
+  }
+
+  .explain strong { color: var(--accent); font-weight: 500; }
+
+  /* ─── Actions ─── */
+  .actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  .btn {
+    flex: 1;
+    padding: .88rem 1rem;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Syne', sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity .15s, transform .1s, background .15s;
+    letter-spacing: .01em;
+  }
+
+  .btn:active { transform: scale(.97); }
+  .btn:disabled { opacity: .35; cursor: default; pointer-events: none; }
+
+  .btn-primary { background: var(--accent); color: #0f0f13; }
+  .btn-primary:hover { background: #d4f74a; }
+
+  .btn-secondary {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn-secondary:hover { background: var(--card2); }
+
+  /* ─── Score Screen ─── */
+  .score-screen {
+    text-align: center;
+    padding: 1rem 0 2rem;
+    animation: fadeIn .45s ease;
+  }
+
+  .score-ring {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 1.75rem;
+    position: relative;
+  }
+
+  .score-ring svg { transform: rotate(-90deg); }
+
+  .score-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .score-big {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -.03em;
+    line-height: 1;
+  }
+
+  .score-sub {
+    font-size: .65rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .score-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: .5rem;
+    letter-spacing: -.02em;
+  }
+
+  .score-msg {
+    color: var(--muted);
+    font-size: .88rem;
+    margin-bottom: 2rem;
+    line-height: 1.55;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .stat-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1rem;
+    text-align: center;
+  }
+
+  .stat-val {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    margin-bottom: 3px;
+  }
+
+  .stat-lbl {
+    font-size: .65rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .07em;
+  }
+
+  /* ─── Home / Start Screen ─── */
+  .home {
+    text-align: center;
+    padding: 2rem 0;
+    animation: fadeIn .4s ease;
+  }
+
+  .home-icon {
+    width: 72px;
+    height: 72px;
+    background: rgba(200,241,53,.08);
+    border: 1px solid rgba(200,241,53,.2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+  }
+
+  .home h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -.04em;
+    margin-bottom: .6rem;
+    line-height: 1.2;
+  }
+
+  .home h1 span { color: var(--accent); }
+
+  .home p {
+    color: var(--muted);
+    font-size: .9rem;
+    line-height: 1.6;
+    max-width: 420px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 2.5rem;
+  }
+
+  .topic-chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .65rem .75rem;
+    font-size: .75rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    text-align: center;
+    transition: border-color .2s, color .2s;
+  }
+
+  .topic-chip:hover {
+    border-color: var(--accent2);
+    color: var(--text);
+  }
+
+  /* ─── Utilities ─── */
+  .green { color: var(--success); }
+  .red   { color: var(--danger); }
+  .yellow{ color: var(--accent); }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 480px) {
+    body { padding: 1.5rem .9rem 3rem; }
+    .home h1 { font-size: 1.65rem; }
+    .topics-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    .q-text { font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <!-- Header -->
+  <div class="hdr">
+    <div class="logo">algo<span>quiz</span></div>
+    <div class="hdr-pill" id="pill">10 questions</div>
+  </div>
+
+  <!-- Dynamic content area -->
+  <div id="root"></div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+//  QUESTION BANK
+// ─────────────────────────────────────────────
+const questions = [
+  {
+    cat: "Big-O",
+    q: "What is the time complexity of binary search on a sorted array of n elements?",
+    code: null,
+    opts: ["O(n)", "O(log n)", "O(n log n)", "O(1)"],
+    ans: 1,
+    explain: "Binary search halves the search space each step → <strong>O(log n)</strong>. It never visits every element, ruling out O(n), and isn't constant time either."
+  },
+  {
+    cat: "Sorting",
+    q: "Which sorting algorithm guarantees O(n log n) in the worst case?",
+    code: null,
+    opts: ["Quick Sort", "Bubble Sort", "Merge Sort", "Insertion Sort"],
+    ans: 2,
+    explain: "<strong>Merge Sort</strong> always divides the array in half and merges in linear time, giving a guaranteed O(n log n) worst-case — unlike QuickSort which degrades to O(n²) with bad pivots."
+  },
+  {
+    cat: "Data Structures",
+    q: "What does this function return for input [3, 1, 4, 1, 5, 9]?",
+    code: `function mystery(arr) {
+  return arr.reduce((a, b) => a > b ? a : b);
+}`,
+    opts: ["3", "9", "1", "5"],
+    ans: 1,
+    explain: "<strong>reduce</strong> compares pairs and keeps the larger value each time — this is simply finding the maximum element, which is <strong>9</strong>."
+  },
+  {
+    cat: "Graphs",
+    q: "Which algorithm finds the shortest path in a weighted graph with non-negative edge weights?",
+    code: null,
+    opts: ["DFS", "Bellman-Ford", "Dijkstra's Algorithm", "Floyd-Warshall"],
+    ans: 2,
+    explain: "<strong>Dijkstra's algorithm</strong> uses a min-priority queue to greedily expand the closest unvisited node, guaranteeing shortest paths for non-negative weights in O((V + E) log V)."
+  },
+  {
+    cat: "Big-O",
+    q: "What is the space complexity of this recursive Fibonacci implementation?",
+    code: `function fib(n) {
+  if (n <= 1) return n;
+  return fib(n - 1) + fib(n - 2);
+}`,
+    opts: ["O(1)", "O(n)", "O(2ⁿ)", "O(log n)"],
+    ans: 1,
+    explain: "The call stack depth reaches at most <strong>n</strong> frames (following the left branch fib(n) → fib(n-1) → … → fib(0)), so space complexity is <strong>O(n)</strong>. Time is O(2ⁿ) but space is only O(n)."
+  },
+  {
+    cat: "Data Structures",
+    q: "A stack follows which principle?",
+    code: null,
+    opts: ["FIFO", "LILO", "LIFO", "FILO"],
+    ans: 2,
+    explain: "A stack is <strong>Last In, First Out (LIFO)</strong>. The most recently pushed element is the first one popped — like a stack of plates. Queues use FIFO instead."
+  },
+  {
+    cat: "Sorting",
+    q: "What is the average-case time complexity of QuickSort?",
+    code: null,
+    opts: ["O(n²)", "O(n log n)", "O(n)", "O(log n)"],
+    ans: 1,
+    explain: "With a reasonably good pivot, QuickSort partitions roughly in half each recursion: the recurrence T(n) = 2T(n/2) + O(n) solves to <strong>O(n log n)</strong> on average."
+  },
+  {
+    cat: "Trees",
+    q: "In a Binary Search Tree (BST), where is the minimum element always located?",
+    code: null,
+    opts: ["Root node", "Rightmost node", "Leftmost node", "At height/2 level"],
+    ans: 2,
+    explain: "BST property: every left child is smaller than its parent. Following left pointers all the way to the <strong>leftmost node</strong> always reaches the minimum element."
+  },
+  {
+    cat: "Algorithms",
+    q: "What core technique does dynamic programming use to achieve efficiency over naive recursion?",
+    code: null,
+    opts: ["Recursion only", "Memoization / tabulation", "Random pivoting", "Greedy selection"],
+    ans: 1,
+    explain: "DP stores (memoizes) results of solved subproblems so they are never recomputed. <strong>Top-down = memoization</strong> (recursive + cache); <strong>bottom-up = tabulation</strong> (iterative). Both convert exponential time to polynomial."
+  },
+  {
+    cat: "Big-O",
+    q: "What is the average-case time complexity of accessing an element in a hash table by key?",
+    code: null,
+    opts: ["O(log n)", "O(n)", "O(1)", "O(n²)"],
+    ans: 2,
+    explain: "Hash tables compute the bucket index directly via a hash function in constant time — average case is <strong>O(1)</strong> regardless of table size. Worst case (all collisions) is O(n)."
+  }
+];
+
+// ─────────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────────
+let cur = 0, locked = false, correct = 0, wrong = 0;
+const keys = ["A", "B", "C", "D"];
+
+const root = document.getElementById("root");
+const pill = document.getElementById("pill");
+
+// ─────────────────────────────────────────────
+//  HOME SCREEN
+// ─────────────────────────────────────────────
+function renderHome() {
+  pill.textContent = "10 questions";
+  const topics = [...new Set(questions.map(q => q.cat))];
+  root.innerHTML = `
+    <div class="home">
+      <div class="home-icon">&#x1F9E0;</div>
+      <h1>Master <span>Algorithms</span><br>One Quiz at a Time</h1>
+      <p>10 carefully crafted questions covering Big-O, sorting, data structures, graphs, trees, and dynamic programming.</p>
+      <div class="topics-grid">
+        ${topics.map(t => `<div class="topic-chip">${t}</div>`).join('')}
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" style="font-size:1rem;padding:1rem" onclick="startQuiz()">Start Quiz →</button>
+      </div>
+    </div>
+  `;
+}
+
+// ─────────────────────────────────────────────
+//  QUIZ RENDER
+// ─────────────────────────────────────────────
+function startQuiz() {
+  cur = 0; locked = false; correct = 0; wrong = 0;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  if (cur >= questions.length) { renderScore(); return; }
+
+  const q = questions[cur];
+  const pct = Math.round((cur / questions.length) * 100);
+  pill.textContent = `${cur + 1} / ${questions.length}`;
+
+  root.innerHTML = `
+    <div class="prog-wrap">
+      <div class="prog-meta">
+        <span>Progress</span>
+        <span>${pct}%</span>
+      </div>
+      <div class="prog-bar">
+        <div class="prog-fill" style="width:${pct}%"></div>
+      </div>
+    </div>
+
+    <div class="cat-badge">
+      <span class="cat-dot"></span>
+      ${q.cat}
+    </div>
+
+    <div class="qcard">
+      <div class="q-num">QUESTION ${cur + 1} OF ${questions.length}</div>
+      <div class="q-text">${q.q}</div>
+      ${q.code ? `<div class="code-block">${escHtml(q.code)}</div>` : ''}
+    </div>
+
+    <div class="options" id="opts">
+      ${q.opts.map((o, i) => `
+        <div class="opt" data-i="${i}" onclick="choose(${i})">
+          <div class="opt-key">${keys[i]}</div>
+          <div class="opt-text">${o}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div id="exp"></div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" id="skipBtn" onclick="skip()">Skip</button>
+      <button class="btn btn-primary"   id="nextBtn" onclick="next()" disabled>Next →</button>
+    </div>
+  `;
+}
+
+// ─────────────────────────────────────────────
+//  INTERACTIONS
+// ─────────────────────────────────────────────
+function choose(i) {
+  if (locked) return;
+  locked = true;
+
+  const q = questions[cur];
+  const opts = document.querySelectorAll(".opt");
+
+  opts.forEach(o => o.classList.add("locked"));
+
+  if (i === q.ans) {
+    correct++;
+    opts[i].classList.add("correct");
+  } else {
+    wrong++;
+    opts[i].classList.add("wrong");
+    opts[q.ans].classList.add("correct");
+  }
+
+  opts.forEach((o, idx) => {
+    if (idx !== i && idx !== q.ans) o.classList.add("faded");
+  });
+
+  document.getElementById("exp").innerHTML =
+    `<div class="explain"><strong>Explanation: </strong>${q.explain}</div>`;
+
+  document.getElementById("nextBtn").disabled = false;
+  document.getElementById("skipBtn").disabled = true;
+}
+
+function skip() {
+  cur++; locked = false;
+  renderQuestion();
+}
+
+function next() {
+  cur++; locked = false;
+  renderQuestion();
+}
+
+// ─────────────────────────────────────────────
+//  SCORE SCREEN
+// ─────────────────────────────────────────────
+function renderScore() {
+  const total = questions.length;
+  const pct = Math.round((correct / total) * 100);
+  const circumference = 2 * Math.PI * 58;
+  const dash = circumference * (pct / 100);
+
+  let title, msg;
+  if (pct >= 90)      { title = "Exceptional!";   msg = "You're an algorithm master. Flawless performance!"; }
+  else if (pct >= 70) { title = "Great job!";      msg = "Solid understanding — review the gaps and you'll be unstoppable."; }
+  else if (pct >= 50) { title = "Keep going!";     msg = "Good start! Revisit the concepts you missed and try again."; }
+  else                { title = "Keep studying!";  msg = "Algorithms take time. Review the fundamentals and you've got this!"; }
+
+  pill.textContent = "Complete!";
+
+  root.innerHTML = `
+    <div class="score-screen">
+      <div class="prog-wrap">
+        <div class="prog-meta"><span>Progress</span><span>100%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
+      </div>
+      <br>
+
+      <div class="score-ring">
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <circle cx="75" cy="75" r="58"
+            fill="none" stroke="#2a2a35" stroke-width="10"/>
+          <circle cx="75" cy="75" r="58"
+            fill="none"
+            stroke="#c8f135"
+            stroke-width="10"
+            stroke-dasharray="${dash.toFixed(2)} ${circumference.toFixed(2)}"
+            stroke-linecap="round"
+            style="transition: stroke-dasharray 1s ease"/>
+        </svg>
+        <div class="score-label">
+          <div class="score-big">${pct}%</div>
+          <div class="score-sub">score</div>
+        </div>
+      </div>
+
+      <div class="score-title">${title}</div>
+      <div class="score-msg">${msg}</div>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-val yellow">${total}</div>
+          <div class="stat-lbl">Total</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val green">${correct}</div>
+          <div class="stat-lbl">Correct</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val red">${wrong}</div>
+          <div class="stat-lbl">Wrong</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-secondary" onclick="renderHome()">Home</button>
+        <button class="btn btn-primary"   onclick="startQuiz()">Retry Quiz →</button>
+      </div>
+    </div>
+  `;
+}
+
+// ─────────────────────────────────────────────
+//  HELPERS
+// ─────────────────────────────────────────────
+function escHtml(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\n/g, "<br>")
+    .replace(/ {2}/g, "&nbsp;&nbsp;");
+}
+
+// ─────────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────────
+renderHome();
+</script>
+</body>
+</html></pre>
+        </body>
+    </html>
